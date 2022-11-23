@@ -22,7 +22,7 @@ animate(0);
 // --------------------- Main Game --------------------- //
 
 function App() {
-  return <>assdg</>;
+  return <></>;
 }
 
 export default App;
