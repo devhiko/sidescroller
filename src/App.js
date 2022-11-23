@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+// --------------------- Main Game --------------------- //
+import { Game } from "./classes/Game";
+
+// canvas setup
+const canvas = document.getElementById("canvas1");
+const ctx = canvas.getContext("2d");
+canvas.width = 1500;
+canvas.height = 500;
+
+const game = new Game(canvas.width, canvas.height);
+let lastTime = 0;
+// animation loop
+function animate(timeStamp) {
+  const deltaTime = timeStamp - lastTime;
+  lastTime = timeStamp;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  game.update(deltaTime);
+  game.draw(ctx);
+  requestAnimationFrame(animate);
+}
+animate(0);
+// --------------------- Main Game --------------------- //
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <>assdg</>;
 }
 
 export default App;
