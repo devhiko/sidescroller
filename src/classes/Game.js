@@ -1,6 +1,6 @@
 // Main Game Class
 import { Background } from "./Background";
-import { Angler1 } from "./Enemy";
+import { Angler1, Angler2, LuckyFish } from "./Enemy";
 import { InputHandler } from "./InputHandler";
 import { Player } from "./Player";
 import { UI } from "./UI";
@@ -16,7 +16,7 @@ export class Game {
     this.keys = [];
     this.enemies = [];
     this.enemyTimer = 0;
-    this.enemyInterval = 500;
+    this.enemyInterval = 1000;
     this.ammo = 20;
     this.maxAmmo = 50;
     this.ammoTimer = 0;
@@ -25,8 +25,9 @@ export class Game {
     this.score = 0;
     this.winningScore = 10;
     this.gameTime = 0;
-    this.timeLimit = 5000;
+    this.timeLimit = 15000;
     this.speed = 1;
+    this.debug = true;
   }
 
   update(deltaTime) {
@@ -34,7 +35,7 @@ export class Game {
     if (this.gameTime > this.timeLimit) this.gameOver = true;
     this.background.update();
     this.background.layer4.update();
-    this.player.update();
+    this.player.update(deltaTime);
     if (this.ammoTimer > this.ammoInterval) {
       if (this.ammo < this.maxAmmo) this.ammo++;
       this.ammoTimer = 0;
@@ -45,6 +46,8 @@ export class Game {
       enemy.update();
       if (this.checkCollision(this.player, enemy)) {
         enemy.markedForDeletion = true;
+        if ((enemy.type = "lucky")) this.player.enterPowerUp();
+        else this.score--;
       }
       this.player.projectiles.forEach((projectile) => {
         if (this.checkCollision(projectile, enemy)) {
@@ -77,7 +80,10 @@ export class Game {
     this.background.layer4.draw(context);
   }
   addEnemy() {
-    this.enemies.push(new Angler1(this));
+    const randomize = Math.random();
+    if (randomize < 0.3) this.enemies.push(new Angler1(this));
+    else if (randomize < 0.6) this.enemies.push(new Angler2(this));
+    else this.enemies.push(new LuckyFish(this));
   }
   checkCollision(rect1, rect2) {
     return (

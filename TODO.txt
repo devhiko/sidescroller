@@ -1,3 +1,5 @@
 * do todos !!!
-* add ts support
+* make performance settings for fluent game (fps, lag..)
 * delete old file 
+* add ts support
+* optimize, refactor and clean code 
