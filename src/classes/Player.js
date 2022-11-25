@@ -11,7 +11,7 @@ export class Player {
     this.frameY = 0;
     this.maxFrame = 37;
     this.speedY = 0;
-    this.maxSpeed = 3;
+    this.maxSpeed = 5;
     this.projectiles = [];
     this.image = document.getElementById("player");
     this.powerUp = false;

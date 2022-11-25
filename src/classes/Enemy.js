@@ -2,7 +2,7 @@ class Enemy {
   constructor(game) {
     this.game = game;
     this.x = this.game.width;
-    this.speedX = Math.random() * 1.5 - 0.5;
+    this.speedX = Math.random() * 0.5 - 0.5;
     this.markedForDeletion = false;
     this.frameX = 0;
     this.frameY = 0;
@@ -47,7 +47,7 @@ export class Angler1 extends Enemy {
     this.y = Math.random() * (this.game.height * 0.95 - this.height);
     this.image = document.getElementById("angler1");
     this.frameY = Math.floor(Math.random() * 3);
-    this.lives = 2;
+    this.lives = 5;
     this.score = this.lives;
   }
 }
@@ -60,7 +60,7 @@ export class Angler2 extends Enemy {
     this.y = Math.random() * (this.game.height * 0.95 - this.height);
     this.image = document.getElementById("angler2");
     this.frameY = Math.floor(Math.random() * 2);
-    this.lives = 3;
+    this.lives = 6;
     this.score = this.lives;
   }
 }
@@ -73,7 +73,7 @@ export class LuckyFish extends Enemy {
     this.y = Math.random() * (this.game.height * 0.95 - this.height);
     this.image = document.getElementById("lucky");
     this.frameY = Math.floor(Math.random() * 2);
-    this.lives = 3;
+    this.lives = 5;
     this.score = 15;
     this.type = "lucky";
   }
@@ -87,7 +87,7 @@ export class HiveWhale extends Enemy {
     this.y = Math.random() * (this.game.height * 0.95 - this.height);
     this.image = document.getElementById("hivewhale");
     this.frameY = 0;
-    this.lives = 15;
+    this.lives = 20;
     this.score = this.lives;
     this.type = "hive";
     this.speedX = Math.random() * -1.2 - 0.2;

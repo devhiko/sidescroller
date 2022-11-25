@@ -4,7 +4,7 @@ import { Game } from "./classes/Game";
 // canvas setup
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
-canvas.width = 1500;
+canvas.width = 1360;
 canvas.height = 500;
 
 const game = new Game(canvas.width, canvas.height);

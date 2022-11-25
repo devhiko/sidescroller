@@ -1,4 +1,1 @@
-* do todos !!!
-* make performance settings for fluent game (fps, lag..)
-* add ts support
-* optimize, refactor and clean code 
+* build and deploy

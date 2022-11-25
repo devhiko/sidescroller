@@ -5,14 +5,14 @@ export class Projectile {
     this.y = y;
     this.width = 10;
     this.height = 3;
-    this.speed = 3;
+    this.speed = 5;
     this.markedForDeletion = false;
     this.image = document.getElementById("projectile");
   }
 
   update() {
     this.x += this.speed;
-    if (this.x > this.game.width * 0.8) this.markedForDeletion = true;
+    if (this.x === this.game.width) this.markedForDeletion = true;
   }
 
   draw(context) {

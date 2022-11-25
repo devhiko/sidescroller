@@ -18,21 +18,28 @@ export class Game {
     this.enemies = [];
     this.particles = [];
     this.enemyTimer = 0;
-    this.enemyInterval = 1000;
+    this.enemyInterval = 2000;
     this.ammo = 20;
     this.maxAmmo = 50;
     this.ammoTimer = 0;
-    this.ammoInterval = 500;
+    this.ammoInterval = 350;
     this.gameOver = false;
     this.score = 0;
-    this.winningScore = 10;
+    this.winningScore = 80;
     this.gameTime = 0;
-    this.timeLimit = 500000;
+    this.timeLimit = 30000;
     this.speed = 1;
     this.debug = false;
   }
 
   update(deltaTime) {
+    if (this.gameOver) {
+      this.ammo = 0;
+      this.speed = 0;
+      this.enemies = [];
+      this.ammo = 0;
+      this.ammoInterval = 0;
+    }
     if (!this.gameOver) this.gameTime += deltaTime;
     if (this.gameTime > this.timeLimit) this.gameOver = true;
     this.background.update();
@@ -54,7 +61,7 @@ export class Game {
           this.particles.push(new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5));
         }
         if (enemy.type === "lucky") this.player.enterPowerUp();
-        else this.score--;
+        else if (!this.gameOver) this.score--;
       }
       this.player.projectiles.forEach((projectile) => {
         if (this.checkCollision(projectile, enemy)) {
@@ -102,7 +109,7 @@ export class Game {
     const randomize = Math.random();
     if (randomize < 0.3) this.enemies.push(new Angler1(this));
     else if (randomize < 0.6) this.enemies.push(new Angler2(this));
-    else if (randomize < 0.8) this.enemies.push(new HiveWhale(this));
+    else if (randomize < 0.7) this.enemies.push(new HiveWhale(this));
     else this.enemies.push(new LuckyFish(this));
   }
   checkCollision(rect1, rect2) {
