@@ -1,6 +1,6 @@
 // Main Game Class
 import { Background } from "./Background";
-import { Angler1, Angler2, HiveWhale, LuckyFish } from "./Enemy";
+import { Angler1, Angler2, Drone, HiveWhale, LuckyFish } from "./Enemy";
 import { InputHandler } from "./InputHandler";
 import { Particle } from "./Particle";
 import { Player } from "./Player";
@@ -50,7 +50,7 @@ export class Game {
       enemy.update();
       if (this.checkCollision(this.player, enemy)) {
         enemy.markedForDeletion = true;
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < enemy.score; i++) {
           this.particles.push(new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5));
         }
         if (enemy.type === "lucky") this.player.enterPowerUp();
@@ -62,10 +62,17 @@ export class Game {
           projectile.markedForDeletion = true;
           this.particles.push(new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5));
           if (enemy.lives <= 0) {
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < enemy.score; i++) {
               this.particles.push(new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5));
             }
             enemy.markedForDeletion = true;
+            if (enemy.type === "hive") {
+              for (let i = 0; i < 5; i++) {
+                this.enemies.push(
+                  new Drone(this, enemy.x + Math.random() * enemy.width, enemy.y + Math.random() * enemy.height)
+                );
+              }
+            }
             if (!this.gameOver) this.score += enemy.score;
             if (this.score > this.winningScore) this.gameOver = true;
           }
