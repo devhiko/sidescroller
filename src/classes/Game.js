@@ -2,6 +2,7 @@
 import { Background } from "./Background";
 import { Angler1, Angler2, LuckyFish } from "./Enemy";
 import { InputHandler } from "./InputHandler";
+import { Particle } from "./Particle";
 import { Player } from "./Player";
 import { UI } from "./UI";
 
@@ -15,6 +16,7 @@ export class Game {
     this.ui = new UI(this);
     this.keys = [];
     this.enemies = [];
+    this.particles = [];
     this.enemyTimer = 0;
     this.enemyInterval = 1000;
     this.ammo = 20;
@@ -25,9 +27,9 @@ export class Game {
     this.score = 0;
     this.winningScore = 10;
     this.gameTime = 0;
-    this.timeLimit = 15000;
+    this.timeLimit = 500000;
     this.speed = 1;
-    this.debug = true;
+    this.debug = false;
   }
 
   update(deltaTime) {
@@ -42,18 +44,27 @@ export class Game {
     } else {
       this.ammoTimer += deltaTime;
     }
+    this.particles.forEach((particle) => particle.update());
+    this.particles = this.particles.filter((particle) => !particle.markedForDeletion);
     this.enemies.forEach((enemy) => {
       enemy.update();
       if (this.checkCollision(this.player, enemy)) {
         enemy.markedForDeletion = true;
-        if ((enemy.type = "lucky")) this.player.enterPowerUp();
+        for (let i = 0; i < 10; i++) {
+          this.particles.push(new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5));
+        }
+        if (enemy.type === "lucky") this.player.enterPowerUp();
         else this.score--;
       }
       this.player.projectiles.forEach((projectile) => {
         if (this.checkCollision(projectile, enemy)) {
           enemy.lives--;
           projectile.markedForDeletion = true;
+          this.particles.push(new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5));
           if (enemy.lives <= 0) {
+            for (let i = 0; i < 10; i++) {
+              this.particles.push(new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5));
+            }
             enemy.markedForDeletion = true;
             if (!this.gameOver) this.score += enemy.score;
             if (this.score > this.winningScore) this.gameOver = true;
@@ -72,8 +83,9 @@ export class Game {
 
   draw(context) {
     this.background.draw(context);
-    this.player.draw(context);
     this.ui.draw(context);
+    this.player.draw(context);
+    this.particles.forEach((particle) => particle.draw(context));
     this.enemies.forEach((enemy) => {
       enemy.draw(context);
     });
